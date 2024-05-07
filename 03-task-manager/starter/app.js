@@ -1,3 +1,6 @@
+// Here we use the REST API which is Representational State Transfer API where everyone can access the Interface in a server!
+
+require('./database/connect')
 const express = require('express');
 const app = express();
 const port = 3000;
