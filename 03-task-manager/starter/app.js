@@ -1,10 +1,11 @@
 // Here we use the REST API which is Representational State Transfer API where everyone can access the Interface in a server!
 
-require('./database/connect')
 const express = require('express');
 const app = express();
 const port = 3000;
 const tasks = require('./routes/tasks');
+const connectDB = require('./database/connect');
+require('dotenv').config();
 
 app.use(express.json());
 
@@ -18,4 +19,14 @@ app.use('/api/v1/tasks', tasks);
 // app.get('/api/v1/tasks/:id') - get a single task!
 //app.patch('/api/v1/tasks/:id') - update task!
 //app.delete('/api/v1/tasks/:id') - delete a task!
-app.listen(port, console.log(`Server is listening on the port ${port}`));
+
+const start = async ()=>{
+    try {
+        await connectDB(process.env.MONGO_URI);
+        app.listen(port, console.log(`Server is listening on the port ${port}`));
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+start()
