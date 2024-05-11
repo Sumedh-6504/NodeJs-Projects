@@ -6,14 +6,20 @@ const port = 3000;
 const tasks = require('./routes/tasks');
 const connectDB = require('./database/connect');
 require('dotenv').config();
+const notFound = require('./middlewares/notFound');
+const asyncWrapper = require('./middlewares/async');
+const errorHandlerMiddleware = require('./middlewares/error-handler');
 
+//middlewares
+app.use(express.static('./public'))
 app.use(express.json());
 
-app.get('/hello', (req, res)=>{
-    res.send("This is a Task Manager App!");
-});
-
+//routes
 app.use('/api/v1/tasks', tasks);
+
+app.use(notFound);
+app.use(asyncWrapper); // this one is an extra imported middleware!
+app.use(errorHandlerMiddleware);
 //app.get('/api/v1/tasks') -- get all the tasks!
 // app.post('/api/v1/tasks')- create a new task!
 // app.get('/api/v1/tasks/:id') - get a single task!
