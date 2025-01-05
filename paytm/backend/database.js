@@ -30,10 +30,13 @@ const UserSchema = new Schema({
   },
 });
 
+/*
 UserSchema.methods.createHash = async (plainTextPassword) => {
   const saltRounds = 10;
   return await bcrypt.hash(plainTextPassword, saltRounds);
 };
+*/
+
 const User = Model("User", UserSchema);
 
 module.exports = {
