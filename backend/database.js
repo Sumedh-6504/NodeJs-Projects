@@ -11,7 +11,7 @@ const UserSchema = new Schema({
   secondName: {
     type: String,
     required: true,
-    maxLength: 50,
+    maxLength: [50, "Max characters: 50"],
     trim: true,
   },
 

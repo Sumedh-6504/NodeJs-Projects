@@ -1,1 +1,1 @@
-export const JWT_SECRET = "Sumedh-Paytm";
+export const JWT_SECRET = "sumedhPaytm";
