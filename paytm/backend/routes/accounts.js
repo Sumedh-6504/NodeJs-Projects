@@ -1,15 +1,10 @@
 import express from "express";
 import zod from "zod";
-import { authMiddleware } from "../middlewares";
-import { Account } from "../database";
+import { authMiddleware } from "../middlewares.js";
+import { Account } from "../database.js";
 import mongoose from "mongoose";
 
 const router = express.Router();
-
-const transferSchema = zod.object({
-  to: String,
-  balance: Number,
-});
 
 router.get("/balance", async (req, res) => {
   const account = await Account.findOne({
@@ -75,4 +70,4 @@ router.post("/transfer", authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

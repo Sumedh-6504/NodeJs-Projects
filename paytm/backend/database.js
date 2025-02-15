@@ -1,4 +1,4 @@
-import { Schema, Model } from "mongoose";
+import { mongoose, Schema, Model } from "mongoose";
 // import { hash } from "bcrypt";
 const UserSchema = new Schema({
   firstName: {
@@ -40,7 +40,7 @@ UserSchema.methods.createHash = async (plainTextPassword) => {
 };
 */
 
-const User = mongoose.schema("User", UserSchema);
+export const User = mongoose.model("User", UserSchema);
 
 const AccountSchema = new Schema({
   userId: {
@@ -54,9 +54,6 @@ const AccountSchema = new Schema({
   },
 });
 
-const Account = mongoose.model("Account", AccountSchema);
+export const Account = mongoose.model("Account", AccountSchema);
 
-module.exports = {
-  User,
-  Account,
-};
+// export default { User, Account };

@@ -1,8 +1,9 @@
 import express from "express";
 import jwt from "jsonwebtoken";
+import { authMiddleware } from "../middlewares.js";
 // import { createUser } from "../routes/validations";
-import { User, Account } from "../database";
-import { JWT_SECRET } from "../config";
+import { User, Account } from "../database.js";
+import { JWT_SECRET } from "../config.js";
 const router = express.Router();
 import zod from "zod";
 
@@ -129,4 +130,4 @@ router.get("/bulk", authMiddleware, async (req, res) => {
   );
 });
 
-module.exports = router;
+export default router;

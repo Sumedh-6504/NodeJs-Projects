@@ -1,8 +1,8 @@
 import express, { json } from "express";
 import { default as mongoose } from "mongoose";
-import mainRouter from "../routes/index";
+import mainRouter from "../backend/routes/index.js";
 import cors from "cors";
-import { JWT_SECRET } from "./config";
+import { JWT_SECRET } from "./config.js";
 const port = 3300;
 const app = express();
 

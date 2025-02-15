@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 // import express from "express";
-import { JWT_SECRET } from "./config";
+import { JWT_SECRET } from "./config.js";
 
 // Input should given to the headers in postman in this format only
 /*
@@ -8,7 +8,7 @@ Header -
 Authorization: Bearer <actual token>
 */
 
-const authMiddleware = (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer "))
@@ -25,8 +25,4 @@ const authMiddleware = (req, res, next) => {
   } catch (err) {
     return req.status(403).json({});
   }
-};
-
-module.exports = {
-  authMiddleware,
 };
