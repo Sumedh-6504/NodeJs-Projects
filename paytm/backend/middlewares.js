@@ -11,8 +11,9 @@ Authorization: Bearer <actual token>
 export const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
+  console.log("Header: ", authHeader);
   if (!authHeader || !authHeader.startsWith("Bearer "))
-    return req.status(403).json({});
+    return res.status(403).json({});
 
   const token = authHeader.split(" ")[1];
 
@@ -20,9 +21,10 @@ export const authMiddleware = (req, res, next) => {
     const decoded = jwt.verify(token, JWT_SECRET);
     if (decoded.userId) {
       req.userId = decoded.userId;
+      console.log("User ID: ", req.userId);
       next();
     }
   } catch (err) {
-    return req.status(403).json({});
+    return res.status(403).json({ msg: "Invalid Token" });
   }
 };

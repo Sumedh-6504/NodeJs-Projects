@@ -9,7 +9,7 @@ const app = express();
 // Database connection
 mongoose
   .connect(
-    "mongodb+srv://sumedhrmundewadi:oiUSicYD2Y3xlSPJ@cluster-0.6awpqed.mongodb.net/",
+    "mongodb+srv://sumedhrmundewadi:oiUSicYD2Y3xlSPJ@cluster-0.6awpqed.mongodb.net/paytm?retryWrites=true&w=majority",
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("MongoDB connected!"))

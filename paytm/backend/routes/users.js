@@ -54,6 +54,9 @@ router.post("/signup", async (req, res) => {
       msg: "User created successfully!",
       token: token,
     });
+
+    console.log("User created: ", dbUser);
+    await dbUser.save();
   } catch (err) {
     res.status(411).json({
       msg: `There was an error as ${err}`,
@@ -91,7 +94,7 @@ router.post("/signin", async (req, res) => {
 router.put("/", authMiddleware, async (req, res) => {
   const updatePayload = req.body;
   const { success } = updateSchema.safeParse(updatePayload);
-
+  // rWPoD8aieTAgFEFZ;
   if (success) {
     await User.UpdateOne({ _id: req.userId }, updatePayload);
     res.status(200).json({ msg: "Updated Sucessfully!" });

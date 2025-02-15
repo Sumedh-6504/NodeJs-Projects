@@ -6,10 +6,11 @@ import mongoose from "mongoose";
 
 const router = express.Router();
 
-router.get("/balance", async (req, res) => {
+router.get("/balance", authMiddleware, async (req, res) => {
   const account = await Account.findOne({
-    userId: req.userId,
+    userId: req.body.userId,
   });
+  console.log("User ID from query:", req.query.userId);
   console.log("Fetched account: ", account);
   res.json({
     balance: account.balance,
@@ -35,7 +36,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
         .json({ msg: "Transaction Failed due to less balance/wrong userId" });
     }
 
-    const toAccount = await Account.findone({ userId: to }).session(
+    const toAccount = await Account.findOne({ userId: to }).session(
       userSession
     );
 
@@ -48,7 +49,7 @@ router.post("/transfer", authMiddleware, async (req, res) => {
 
     // Updating the transferer account by deducting the amount to be sent(-amount)
     await Account.updateOne(
-      { userId: userId },
+      { userId: req.userId },
       { $inc: { balance: -amount } }
     ).session(userSession);
 
@@ -71,3 +72,11 @@ router.post("/transfer", authMiddleware, async (req, res) => {
 });
 
 export default router;
+
+// Simple Rules while sending postman requests whil trasnfering and getting the balance
+/*
+1. The Token should start with Bearer {token}
+2. The token passed in getting the balance and transfering should be the same that is "from" UserId
+3. Main Rule -- The UserId in MongoDB should be given in the body of the request not the ObjectId
+4. You have to run "node index.js" while sending any of the requests
+*/

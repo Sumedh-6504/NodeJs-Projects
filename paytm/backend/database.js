@@ -1,4 +1,4 @@
-import { mongoose, Schema, Model } from "mongoose";
+import { mongoose, Schema } from "mongoose";
 // import { hash } from "bcrypt";
 const UserSchema = new Schema({
   firstName: {
