@@ -1,5 +1,5 @@
 import { Schema, Model } from "mongoose";
-import { hash } from "bcrypt";
+// import { hash } from "bcrypt";
 const UserSchema = new Schema({
   firstName: {
     type: String,
@@ -17,12 +17,14 @@ const UserSchema = new Schema({
 
   userName: {
     type: String,
-    required: [true, "Username is required"],
+    required: true,
     unique: true,
+    trim: true,
+    lowercase: true,
     minLength: 3,
-    maxLength: 10,
+    maxLength: 30,
   },
-  password_hash: {
+  password: {
     type: String,
     required: [true, "Password is required"],
     unique: true,
@@ -30,6 +32,7 @@ const UserSchema = new Schema({
   },
 });
 
+//The below code is for hashing the above password using bcrypt library
 /*
 UserSchema.methods.createHash = async (plainTextPassword) => {
   const saltRounds = 10;
@@ -37,8 +40,23 @@ UserSchema.methods.createHash = async (plainTextPassword) => {
 };
 */
 
-const User = Model("User", UserSchema);
+const User = mongoose.schema("User", UserSchema);
+
+const AccountSchema = new Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  balance: {
+    type: Number,
+    required: true,
+  },
+});
+
+const Account = mongoose.model("Account", AccountSchema);
 
 module.exports = {
   User,
+  Account,
 };
