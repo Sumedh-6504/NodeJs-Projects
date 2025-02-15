@@ -10,7 +10,7 @@ router.get("/balance", async (req, res) => {
   const account = await Account.findOne({
     userId: req.userId,
   });
-
+  console.log("Fetched account: ", account);
   res.json({
     balance: account.balance,
   });
