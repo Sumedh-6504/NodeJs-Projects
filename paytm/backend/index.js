@@ -19,7 +19,12 @@ mongoose
 
 // Validation libs
 app.use(json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Allow your frontend domain
+    credentials: true, // Allow credentials (cookies, tokens)
+  })
+);
 
 // Router middlewares
 app.use("/api/v1", mainRouter);
