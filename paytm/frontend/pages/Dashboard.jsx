@@ -1,11 +1,11 @@
-import { Appbar } from "../components/AppBar";
-import { Balance } from "../components/Balance";
-import { Users } from "../components/Users";
+import { AppBar } from "../components/AppBar.jsx";
+import { Balance } from "../components/Balance.jsx";
+import { Users } from "../components/Users.jsx";
 
 const Dashboard = () => {
   return (
     <div>
-      <Appbar />
+      <AppBar />
       <div className="m-8">
         <Balance value={"10,000"} />
         <Users />

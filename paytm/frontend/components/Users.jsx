@@ -5,11 +5,13 @@ import { Button } from "./Button.jsx";
 
 export const Users = () => {
   // eslint-disable-next-line no-unused-vars
-  const [users, setUsers] = useState({
-    firstName: "Sumedh ",
-    lastName: "R Mundewadi",
-    _id: 1,
-  });
+  const [users, setUsers] = useState([
+    {
+      firstName: "Sumedh ",
+      lastName: "R Mundewadi",
+      _id: 1,
+    },
+  ]);
 
   return (
     <>
@@ -36,11 +38,11 @@ function User({ user }) {
       <div className="flex">
         <div className="rounded-full h-12 w-12 bg-slate-200 flex justify-center mt-1 mr-2">
           <div className="flex flex-col justify-center h-full text-xl">
-            {user?.firstName?.[0]}
+            {user.firstName?.[0]}
           </div>
         </div>
         <div className="flex flex-col justify-center h-full">
-          {user?.firstName} {user?.lastName}
+          {user.firstName} {user.lastName}
         </div>
       </div>
       <div className="flex flex-col justify-center h-full">
