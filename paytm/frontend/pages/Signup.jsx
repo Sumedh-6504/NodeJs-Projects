@@ -6,7 +6,7 @@ import { Heading } from "../components/Heading.jsx";
 import { InputBox } from "../components/InputBox.jsx";
 import { SubHeading } from "../components/SubHeading.jsx";
 
-export const Signup = () => {
+const Signup = () => {
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
@@ -30,3 +30,5 @@ export const Signup = () => {
     </div>
   );
 };
+
+export default Signup;
