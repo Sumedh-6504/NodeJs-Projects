@@ -19,12 +19,15 @@ mongoose
 
 // Validation libs
 app.use(json());
+
+// Added a new orign for cors lib
 app.use(
   cors({
-    origin: "http://localhost:5173", // Allow your frontend domain
+    origin: ["http://localhost:5173", "http://localhost:5174"], // Allow your frontend domain
     credentials: true, // Allow credentials (cookies, tokens)
   })
 );
+app.use(express.urlencoded({ extended: true }));
 
 // Router middlewares
 app.use("/api/v1", mainRouter);

@@ -1,6 +1,6 @@
 {
   "name": "backend",
-  "type":"module",
+  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,5 +17,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.0",
     "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.26.3",
+    "@babel/register": "^7.25.9"
   }
 }

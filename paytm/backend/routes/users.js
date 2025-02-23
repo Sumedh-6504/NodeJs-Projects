@@ -6,6 +6,10 @@ import { User, Account } from "../database.js";
 import { JWT_SECRET } from "../config.js";
 const router = express.Router();
 import zod from "zod";
+// import Users from "../../frontend/components/Users.jsx";
+// import { Users } from "../../frontend/components/Users.jsx";
+// import Users from "../../frontend/components/Users.js";
+// import { Users } from "../../frontend/components/Users.jsx";
 
 const updateSchema = zod.object({
   password: zod.string(),
@@ -25,18 +29,32 @@ const signUpSchema = zod.object({
 });
 
 router.post("/signup", async (req, res) => {
-  const createdPayload = req.body;
-  const { success } = signUpSchema.safeParse(createdPayload);
+  console.log("Requested payload: ", req.body);
 
-  if (!success) {
+  const createdPayload = req.body;
+  const result = signUpSchema.safeParse(createdPayload);
+  console.log("Validation result: ", result);
+
+  if (!result.success) {
     return res
-      .status(411)
-      .json({ message: "Email already taken or invalid credentials" });
+      .status(400)
+      .json({ message: "Validation failed1", errors: result.error.errors });
   }
 
-  const user = User.findOne({ userName: createdPayload.userName });
-  if (user._id) {
-    res.status(411).json({
+  const user = await User.findOne({ userName: createdPayload.userName });
+  /*
+  // Here there was a Axios error due to :
+  // 1. The User.findOne() was not awaited
+  // 2. if condition can search the user only not based on "_id"
+  //  if (user._id) {
+    ^
+
+    TypeError: Cannot read properties of null (reading '_id')
+        at file:///E:/data/cohortProjects/reactProjs/paytm/paytm/backend/routes/users.js:41:12
+        at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+        */
+  if (user) {
+    return res.status(400).json({
       msg: "Email already taken or invalid credentials",
     });
   }
@@ -56,9 +74,8 @@ router.post("/signup", async (req, res) => {
     });
 
     console.log("User created: ", dbUser);
-    await dbUser.save();
   } catch (err) {
-    res.status(411).json({
+    res.status(500).json({
       msg: `There was an error as ${err}`,
     });
   }
@@ -105,10 +122,16 @@ router.put("/", authMiddleware, async (req, res) => {
   }
 });
 
+
+/*
+The folowing changhes were made in bulk router :-
+1. where "users" in users.find() was converted to User.find({}) as User component is the one which is declared in Users.jsx which results in getting a token from localStorage after 
+*/
 router.get("/bulk", authMiddleware, async (req, res) => {
   const filter = req.query.filter || "";
+  console.log("Received Token:", req.headers.authorization);
 
-  const users = await user.find({
+  const users = await User.find({
     $or: [
       {
         firstName: {
@@ -123,14 +146,14 @@ router.get("/bulk", authMiddleware, async (req, res) => {
     ],
   });
 
-  res.json(
-    users.map((user) => ({
+  res.json({
+    users: users.map((user) => ({
       firstName: user.firstName,
       secondName: user.secondName,
       userName: user.userName,
       _id: user._id,
-    }))
-  );
+    })),
+  });
 });
 
 export default router;
