@@ -7,18 +7,20 @@ import { InputBox } from "../components/InputBox.jsx";
 import { SubHeading } from "../components/SubHeading.jsx";
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [secondName, setSecondName] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const jsonData = {
-    userName: userName,
-    firstName: firstName,
-    lastName: lastName,
-    password: password,
+    userName,
+    firstName,
+    secondName,
+    password,
   };
 
   return (
@@ -36,7 +38,7 @@ const Signup = () => {
           />
           <InputBox
             onChange={(e) => {
-              setLastName(e.target.value);
+              setSecondName(e.target.value);
             }}
             placeholder="Doe"
             label={"Last Name"}
@@ -57,18 +59,24 @@ const Signup = () => {
           />
           <div className="pt-4">
             <Button
-              onClick={() => {
-                axios.post(
+              onClick={async () => {
+                console.log("Sending Data: ", jsonData);
+
+                const response = await axios.post(
                   "http://localhost:3300/api/v1/user/signup",
-                  jsonData,
+                  JSON.stringify(jsonData),
                   {
                     withCredentials: true,
                     headers: {
                       "Content-Type": "application/json",
-            
+                      // "Content-Length": JSON.stringify(jsonData).length,
                     },
                   }
                 );
+                const token = response.data.token;
+                console.log("Getting from backendtoken is: ", token);
+                localStorage.setItem("token", token);
+                navigate("/dashboard");
               }}
               label={"Sign up"}
             />

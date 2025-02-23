@@ -1,4 +1,44 @@
+import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 const SendMoney = () => {
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get("id");
+  const userName = searchParams.get("name");
+
+  const [amount, setAmount] = useState(0);
+
+  const handleTransfer = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        console.error("Token's missing!");
+        return;
+      }
+
+      const response = await axios.post(
+        "http://localhost:3300/api/v1/account/transfer",
+        {
+          recipientId: userId,
+          amount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        }
+      );
+
+      console.log("Transfer Successful!", response.data);
+      alert("Transfer Successful!");
+    } catch (error) {
+      console.error("Transfer Failed! ", error.response?.data || error.message);
+      alert("Transfer Failed!");
+    }
+  };
+
   return (
     <div className="flex justify-center h-screen bg-gray-100">
       <div className="h-full flex flex-col justify-center">
@@ -9,9 +49,11 @@ const SendMoney = () => {
           <div className="p-6">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
-                <span className="text-2xl text-white">A</span>
+                <span className="text-2xl text-white">
+                  {userName[0].toUpperCase()}
+                </span>
               </div>
-              <h3 className="text-2xl font-semibold">Friend&apos;s Name</h3>
+              <h3 className="text-2xl font-semibold">{userName}</h3>
             </div>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -22,13 +64,19 @@ const SendMoney = () => {
                   Amount (in Rs)
                 </label>
                 <input
+                  onChange={(e) => {
+                    setAmount(e.target.value);
+                  }}
                   type="number"
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
                   id="amount"
                   placeholder="Enter amount"
                 />
               </div>
-              <button className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white">
+              <button
+                onClick={handleTransfer}
+                className="justify-center rounded-md text-sm font-medium ring-offset-background transition-colors h-10 px-4 py-2 w-full bg-green-500 text-white"
+              >
                 Initiate Transfer
               </button>
             </div>
@@ -39,4 +87,4 @@ const SendMoney = () => {
   );
 };
 
-export default SendMoney
+export default SendMoney;

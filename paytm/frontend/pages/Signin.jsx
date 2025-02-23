@@ -3,8 +3,10 @@ import { Button } from "../components/Button.jsx";
 import { Heading } from "../components/Heading.jsx";
 import { InputBox } from "../components/InputBox.jsx";
 import { SubHeading } from "../components/SubHeading.jsx";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-slate-300 h-screen flex justify-center">
       <div className="flex flex-col justify-center">
@@ -14,7 +16,12 @@ const Signin = () => {
           <InputBox placeholder="harkirat@gmail.com" label={"Email"} />
           <InputBox placeholder="123456" label={"Password"} />
           <div className="pt-4">
-            <Button label={"Sign in"} />
+            <Button
+              onClick={() => {
+                navigate("/dashboard");
+              }}
+              label={"Sign in"}
+            />
           </div>
           <BottomWarning
             label={"Don't have an account?"}
