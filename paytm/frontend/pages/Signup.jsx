@@ -9,6 +9,14 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+/*
+There are some more components to be added like after transfering converting the send amount component to transfer successfull component using Tailwind CSS
+Add a Loading component for each page dashboard, signin, signup
+
+When we signin add a navigate hook to dashboard page component using navigate().
+*/
+
 const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [secondName, setSecondName] = useState("");
